@@ -1,11 +1,12 @@
 import axios, { AxiosRequestConfig } from "axios";
-import getAPIHost from "./getHost";
 
-export default class PlutoAxios {
+const LAMBDA_API_HOST = "https://d2l4c5evd6ubxk.cloudfront.net";
+
+export default class BaseAxios {
   protected instance = axios.create({
-    baseURL: getAPIHost(),
+    baseURL: LAMBDA_API_HOST,
     withCredentials: true,
-    timeout: 30000
+    timeout: 30000,
   });
 
   protected get(path: string, config?: AxiosRequestConfig) {
