@@ -42,7 +42,7 @@ export const S3_CLIENT_OPTIONS: IS3ClientOptions = {
 // Local defined Constants
 export const DEPLOY_VERSION = process.env.DEPLOY_VERSION;
 export const PRODUCTION_GIT_TAG: string = "production";
-export const AWS_S3_BUCKET: string = "coinone-dev-interview-app";
+export const AWS_S3_BUCKET: string = "coinone-dev-interview-apps";
 export const AWS_S3_FOLDER_PREFIX: string = "react-app";
 export const APP_DEST: string = "./dist/";
 export const VERSION_FILE_NAME: string = "production_version";

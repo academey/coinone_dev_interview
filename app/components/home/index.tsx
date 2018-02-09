@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { withStyles } from "../../helpers/withStylesHelper";
-import * as Actions from "./actions";
+// import * as Actions from "./actions";
 import { IAppState } from "../../reducers/index";
 import { DispatchProp } from "react-redux";
 import { IHomeStateRecord } from "./records";
 import { connect } from "react-redux";
+// import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
+// import { RECORD } from '../../__mocks__/index';
 
 const styles = require("./home.scss");
 
@@ -25,15 +27,20 @@ function mapStateToProps(state: IAppState) {
 
 @withStyles<typeof HomeContainer>(styles)
 class HomeContainer extends React.PureComponent<IHomeContainerProps, {}> {
-  private getOrderBook = () => {
-    const { dispatch } = this.props;
+  // private getOrderBook = () => {
+  //   const { dispatch } = this.props;
 
-    dispatch(Actions.getOrderBook());
-  };
+  //   dispatch(Actions.getOrderBook("eth", this.getAxiosCancelToken()));
+  // };
 
-  public componentDidMount() {
-    this.getOrderBook();
-  }
+  // private getAxiosCancelToken = () => {
+  //   const axiosCancelTokenManager = new AxiosCancelTokenManager();
+  //   return axiosCancelTokenManager.getCancelTokenSource();
+  // };
+
+  // public componentDidMount() {
+  //   this.getOrderBook();
+  // }
 
   public render() {
     return (
