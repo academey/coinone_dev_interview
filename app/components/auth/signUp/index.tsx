@@ -1,9 +1,10 @@
 import * as React from "react";
-import { InputBox } from "../../common/inputBox/index";
+import { InputBox } from "../../common/inputBox";
 import * as Actions from "./actions";
 import { DispatchProp, connect } from "react-redux";
 import { ISignUpStateRecord } from "./records";
-import { IAppState } from "../../../reducers/index";
+import { IAppState } from "../../../reducers";
+
 const styles = require("./signUp.scss");
 
 interface ISignUpContainerProps extends DispatchProp<ISignUpContainerMappedState> {
@@ -16,7 +17,7 @@ interface ISignUpContainerMappedState {
 
 function mapStateToProps(state: IAppState) {
   return {
-    signUpState: state.signUp
+    signUpState: state.signUp,
   };
 }
 

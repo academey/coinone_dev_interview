@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { withStyles } from "../../helpers/withStylesHelper";
 // import * as Actions from "./actions";
 import { IAppState } from "../../reducers/index";
 import { DispatchProp } from "react-redux";
@@ -25,7 +24,6 @@ function mapStateToProps(state: IAppState) {
   };
 }
 
-@withStyles<typeof HomeContainer>(styles)
 class HomeContainer extends React.PureComponent<IHomeContainerProps, {}> {
   // private getOrderBook = () => {
   //   const { dispatch } = this.props;

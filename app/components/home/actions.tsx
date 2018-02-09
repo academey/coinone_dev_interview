@@ -2,8 +2,9 @@ import { Dispatch } from "redux";
 import { ACTION_TYPES } from "../../actions/actionTypes";
 import CoinoneAPI from "../../api/coinone";
 import { CancelTokenSource } from "axios";
+import { COINONE_CURRENCY } from "../../api/coinone";
 
-export function getOrderBook(currency: string, cancelTokenSource: CancelTokenSource) {
+export function getOrderBook(currency: COINONE_CURRENCY, cancelTokenSource: CancelTokenSource) {
   return async (dispatch: Dispatch<any>) => {
     dispatch({
       type: ACTION_TYPES.HOME_START_TO_GET_ORDER_BOOK,

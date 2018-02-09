@@ -4,6 +4,7 @@ import HomeContainer from "./components/home";
 
 import "normalize.css";
 import "./root.scss";
+
 import { Header, Footer } from "./components/layouts";
 import SignIn from "./components/auth/signIn";
 import SignUp from "./components/auth/signUp";
