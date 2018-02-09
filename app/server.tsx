@@ -50,7 +50,7 @@ export async function serverSideRender(requestUrl: string, scriptPath: string) {
 // Lambda Handler
 export async function handler(event: LambdaProxy.Event, context: LambdaProxy.Context) {
   if (EnvChecker.isServer()) {
-    const LAMBDA_SERVICE_NAME = "coinone_dev_interview";
+    const LAMBDA_SERVICE_NAME = "coinone-dev-interview";
     const path = event.path;
     const version = fs.readFileSync("./version");
     let requestPath: string;
