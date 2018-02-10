@@ -14,9 +14,11 @@ export function getOrderBook(currency: COINONE_CURRENCY, cancelTokenSource: Canc
       currency,
       cancelTokenSource,
     });
-    console.log(getOrderBookResult);
     dispatch({
       type: ACTION_TYPES.CHART_SUCCEEDED_TO_GET_ORDER_BOOK,
+      payload: {
+        getOrderBookResult,
+      },
     });
     // try {
     //   await CoinoneAPI.getOrderBook({
@@ -46,7 +48,9 @@ export function getTickers(cancelTokenSource: CancelTokenSource) {
 
     dispatch({
       type: ACTION_TYPES.CHART_SUCCEEDED_TO_GET_TICKERS,
-      tickers: getTickersResult,
+      payload: {
+        tickers: getTickersResult,
+      },
     });
   };
 }

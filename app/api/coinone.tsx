@@ -3,6 +3,7 @@ import BaseAxios from "./baseApi";
 import { ITickers, recordifyTickers, ITickersRecord } from "../models/ticker";
 
 export type COINONE_CURRENCY = "btc" | "bch" | "eth" | "etc" | "xrp" | "qtum" | "iota" | "ltc" | "btg" | "all";
+
 export type COINONE_PERIOD = "hour" | "day";
 
 interface IGetOrderBookParams {
@@ -64,7 +65,6 @@ class CoinoneAPI extends BaseAxios {
       cancelToken: cancelTokenSource.token,
     });
     const getTickersData: ITickers = getTickersResponse.data;
-    console.log("getTickersData is ", getTickersData);
 
     return recordifyTickers(getTickersData);
   }

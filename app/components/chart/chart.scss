@@ -3,6 +3,12 @@
 .chartContainer {
   margin-top: $navbar-height;
 
+  .surplusForADay {
+    color: red;
+  }
+  .deficitForADay {
+    color: blue;
+  }
   .tickerItems {
     display: flex;
 
