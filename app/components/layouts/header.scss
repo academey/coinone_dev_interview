@@ -1,0 +1,46 @@
+@import "../variables";
+
+.navbar {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background-color: $coinone_dark_blue;
+  transition: box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  .isTop {
+    box-shadow: none;
+  }
+
+  .headerContainer {
+    max-width: $container_width;
+    height: $navbar_height;
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+
+    .headerLogo {
+      display: inline-block;
+      margin-right: 40px;
+
+      svg {
+        width: 160px;
+        height: 34px;
+        object-fit: contain;
+      }
+    }
+
+    .linkItem {
+      color: #fff;
+      font-size: 16px;
+      margin-right: 30px;
+      font-weight: 500;
+      transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        color: $coinone_sky_blue;
+      }
+    }
+  }
+}

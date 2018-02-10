@@ -71,12 +71,14 @@ export interface ITickersRecord extends TypedRecord<ITickersRecord>, ITickers {}
 // export const TickersFactory = makeTypedFactory<ITickers, ITickersRecord>(initialTickers);
 export const TickerFactory = makeTypedFactory<ITicker, ITickerRecord>(initialTicker);
 
+export const ITickerCurrencyArray = ["btc", "bch", "eth", "etc", "xrp", "qtum", "iota", "ltc", "btg"];
+
 export function recordifyTickers(tickers: ITickers = initialTickers): ITickersRecord {
   let resultTickers: ITickers = initialTickers;
   resultTickers.errorCode = tickers.errorCode;
   resultTickers.timestamp = tickers.timestamp;
 
-  ["btc", "bch", "eth", "etc", "xrp", "qtum", "iota", "ltc", "btg"].forEach((currency: string) => {
+  ITickerCurrencyArray.forEach((currency: string) => {
     const ticker: IRawTicker = tickers[currency];
     resultTickers[currency] = recordify({
       first_price: ticker.first,

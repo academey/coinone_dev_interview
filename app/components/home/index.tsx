@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 // import * as Actions from "./actions";
 import { IAppState } from "../../reducers/index";
 import { DispatchProp } from "react-redux";
@@ -8,6 +7,7 @@ import { connect } from "react-redux";
 import { RECORD } from "../../__mocks__/index";
 // import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
 // import { RECORD } from '../../__mocks__/index';
+import { ITickersRecord, ITickerRecord, ITickerCurrencyArray } from "../../models/ticker";
 
 const styles = require("./home.scss");
 
@@ -41,23 +41,25 @@ class HomeContainer extends React.PureComponent<IHomeContainerProps, {}> {
   //   this.getOrderBook();
   // }
 
+  private mapTickerNode = (tickers: ITickersRecord) => {
+    const tickerItems = ITickerCurrencyArray.map((currency: string, index) => {
+      const ticker: ITickerRecord = tickers.get(currency);
+      return (
+        <div key={`ticker_${index}`} className={styles.ticker}>
+          <span />
+          {ticker.first_price}
+          {ticker.currency}
+        </div>
+      );
+    });
+
+    return <div className={styles.tickerItems}>{tickerItems}</div>;
+  };
+
   public render() {
     console.log(RECORD.TICKERS);
     console.log(RECORD.TICKERS.toJS());
-    return (
-      <div className={styles.homeWrapper}>
-        <div className={styles.homeWrapperBackground} />
-        <div className={styles.homeContent}>
-          <h2 className={styles.headline}>Hello Universal React + Serverless!</h2>
-          <div className={styles.subHeadline}>
-            You can start universal rendering React web app with Serverless Framework!
-          </div>
-          <Link to="/docs" className={styles.linkButton}>
-            Go To Docs
-          </Link>
-        </div>
-      </div>
-    );
+    return <div className={styles.homeContainer}>{this.mapTickerNode(RECORD.TICKERS)}</div>;
   }
 }
 
