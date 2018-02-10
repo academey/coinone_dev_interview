@@ -1,9 +1,9 @@
-import { ITicker, TickerFactory } from "../models/ticker";
+import { ITickers, recordifyTickers } from "../models/ticker";
 
 export const RAW = {
-  TICKER: require("./ticker.json") as ITicker,
+  TICKERS: require("./tickers.json") as ITickers,
 };
 
 export const RECORD = {
-  TICKER: TickerFactory(RAW.TICKER),
+  TICKERS: recordifyTickers(RAW.TICKERS),
 };

@@ -5,6 +5,7 @@ import { IAppState } from "../../reducers/index";
 import { DispatchProp } from "react-redux";
 import { IHomeStateRecord } from "./records";
 import { connect } from "react-redux";
+import { RECORD } from "../../__mocks__/index";
 // import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
 // import { RECORD } from '../../__mocks__/index';
 
@@ -41,6 +42,8 @@ class HomeContainer extends React.PureComponent<IHomeContainerProps, {}> {
   // }
 
   public render() {
+    console.log(RECORD.TICKERS);
+    console.log(RECORD.TICKERS.toJS());
     return (
       <div className={styles.homeWrapper}>
         <div className={styles.homeWrapperBackground} />
