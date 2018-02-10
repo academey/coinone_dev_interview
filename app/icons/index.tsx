@@ -7,6 +7,7 @@ interface IIconProps extends React.SVGAttributes<SVGElement> {
 
 const ICONS: { [key: string]: any } = {
   HEADER_LOGO: require("./coinone_logo_white_main.svg").default,
+  FOOTER_LOGO: require("./coinone_logo_gray.svg").default,
 };
 
 class Icon extends React.PureComponent<IIconProps, {}> {

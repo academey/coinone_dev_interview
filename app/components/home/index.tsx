@@ -1,12 +1,12 @@
 import * as React from "react";
-// import * as Actions from "./actions";
+import * as Actions from "./actions";
 import { IAppState } from "../../reducers/index";
 import { DispatchProp } from "react-redux";
 import { IHomeStateRecord } from "./records";
 import { connect } from "react-redux";
 import { RECORD } from "../../__mocks__/index";
-// import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
-// import { RECORD } from '../../__mocks__/index';
+import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
+
 import { ITickersRecord, ITickerRecord, ITickerCurrencyArray } from "../../models/ticker";
 
 const styles = require("./home.scss");
@@ -26,20 +26,20 @@ function mapStateToProps(state: IAppState) {
 }
 
 class HomeContainer extends React.PureComponent<IHomeContainerProps, {}> {
-  // private getOrderBook = () => {
-  //   const { dispatch } = this.props;
+  private getOrderBook = () => {
+    const { dispatch } = this.props;
 
-  //   dispatch(Actions.getOrderBook("eth", this.getAxiosCancelToken()));
-  // };
+    dispatch(Actions.getOrderBook("eth", this.getAxiosCancelToken()));
+  };
 
-  // private getAxiosCancelToken = () => {
-  //   const axiosCancelTokenManager = new AxiosCancelTokenManager();
-  //   return axiosCancelTokenManager.getCancelTokenSource();
-  // };
+  private getAxiosCancelToken = () => {
+    const axiosCancelTokenManager = new AxiosCancelTokenManager();
+    return axiosCancelTokenManager.getCancelTokenSource();
+  };
 
-  // public componentDidMount() {
-  //   this.getOrderBook();
-  // }
+  public componentDidMount() {
+    this.getOrderBook();
+  }
 
   private mapTickerNode = (tickers: ITickersRecord) => {
     const tickerItems = ITickerCurrencyArray.map((currency: string, index) => {

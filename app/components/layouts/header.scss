@@ -20,6 +20,12 @@
     display: flex;
     align-items: center;
 
+    .leftBox {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
     .headerLogo {
       display: inline-block;
       margin-right: 40px;
@@ -40,6 +46,14 @@
 
       &:hover {
         color: $coinone_sky_blue;
+      }
+    }
+
+    .rightBox {
+      font-size: 15px;
+      .link {
+        margin-left: 32px;
+        cursor: pointer;
       }
     }
   }
