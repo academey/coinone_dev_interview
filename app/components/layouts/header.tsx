@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 import Icon from "../../icons/index";
+import { COINONE_APP_ID } from "../../api/baseApi";
 
 const styles = require("./header.scss");
 
@@ -23,11 +24,11 @@ class Header extends React.PureComponent<IHeaderComponentProps, {}> {
             </Link>
           </div>
           <div className={styles.rightBox}>
+            <a href={`https://coinone.co.kr/account/login/?app_id=${COINONE_APP_ID}`} className={styles.linkItem}>
+              Login with Coinone
+            </a>
             <a href="https://github.com/academey/coinone_dev_interview" target="_blank" className={styles.linkItem}>
               Github
-            </a>
-            <a href="mailto:academey@gmail.com" target="_blank" className={styles.linkItem}>
-              Contact
             </a>
           </div>
         </div>

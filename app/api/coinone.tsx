@@ -1,5 +1,5 @@
 import { AxiosResponse, CancelTokenSource } from "axios";
-import BaseAxios from "./baseApi";
+import { BaseAxios } from "./baseApi";
 import { ITickers, recordifyTickers, ITickersRecord } from "../models/ticker";
 
 export type COINONE_CURRENCY = "btc" | "bch" | "eth" | "etc" | "xrp" | "qtum" | "iota" | "ltc" | "btg" | "all";

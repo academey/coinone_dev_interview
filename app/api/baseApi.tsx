@@ -1,16 +1,12 @@
 import axios, { AxiosRequestConfig } from "axios";
 
 const COINONE_API_HOST = "https://api.coinone.co.kr";
+export const COINONE_APP_ID = "63f24095-eed4-4ae5-aeb6-04ff0650638a";
 
-export default class BaseAxios {
+export class BaseAxios {
   protected instance = axios.create({
     baseURL: COINONE_API_HOST,
     withCredentials: false,
-    // headers: {
-    //   "Access-Control-Allow-Credentials": true,
-    //   // "Access-Control-Allow-Origin": "http://localhost:8080/",
-    //   //Access-Control-Allow-Methods: POST,GET,OPTIONS,PUT,DELETE Content-Type: application/json
-    // },
     timeout: 30000,
   });
 

@@ -33,12 +33,6 @@ function mapStateToProps(state: IAppState) {
 }
 
 class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
-  // private getOrderBook = () => {
-  //   console.log("getOrderBook");
-  //   const { dispatch } = this.props;
-
-  //   dispatch(Actions.getOrderBook("eth", this.getAxiosCancelToken()));
-  // };
   private getTickersInterval: any;
 
   private getTickers = () => {
@@ -93,8 +87,25 @@ class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
         accessor: (ticker: ITickerRecord) => ticker.currency.toUpperCase(),
       },
       {
-        Header: "Price(￦, %)",
-        accessor: "last_price",
+        Header: "Price(￦)",
+        id: "last_price", // Required because our accessor is not a string
+        accessor: (ticker: ITickerRecord) => numberWithCommas(ticker.last_price),
+        sortMethod: (a: string, b: string) => {
+          const commaRemovedA = a.replace(/,/gi, "");
+          const commaRemovedB = b.replace(/,/gi, "");
+
+          return parseInt(commaRemovedA, 10) > parseInt(commaRemovedB, 10) ? 1 : -1;
+        },
+      },
+      {
+        Header: "Price Diff(￦, %)",
+        id: "price_diff", // Required because our accessor is not a string
+        accessor: (ticker: ITickerRecord) => {
+          const diffPriceForADay = ticker.last_price - ticker.first_price;
+          const diffPercentageForADay = diffPriceForADay / ticker.first_price * 100;
+
+          return diffPercentageForADay;
+        },
         Cell: (props: any) => {
           const ticker: ITickerRecord = props.original;
           const diffPriceForADay = ticker.last_price - ticker.first_price;
@@ -104,19 +115,15 @@ class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
           if (surplusForADay) {
             return (
               <span className="number">
-                {numberWithCommas(ticker.last_price)}{" "}
-                <span className={styles.surplusForADay}>{`+${numberWithCommas(
-                  diffPriceForADay,
-                )} (${diffPercentageForADay}%)`}</span>
+                {`+${numberWithCommas(diffPriceForADay)}`}
+                <span className={styles.surplusForADay}>{` (${diffPercentageForADay}%)`}</span>
               </span>
             );
           } else {
             return (
               <span className="number">
-                {numberWithCommas(ticker.last_price)}
-                <span className={styles.deficitForADay}>{`-${numberWithCommas(
-                  diffPriceForADay,
-                )} (${diffPercentageForADay}%)`}</span>
+                {`${numberWithCommas(diffPriceForADay)}`}
+                <span className={styles.deficitForADay}>{` (${diffPercentageForADay}%)`}</span>
               </span>
             );
           }
@@ -128,7 +135,13 @@ class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
       },
       {
         Header: "Yesterday(￦, %)",
-        accessor: "yesterday_last",
+        id: "yesterday_diff", // Required because our accessor is not a string
+        accessor: (ticker: ITickerRecord) => {
+          const yesterdayDiffPriceForADay = ticker.yesterday_last - ticker.yesterday_first;
+          const yesterdayDiffPercentageForADay = yesterdayDiffPriceForADay / ticker.first_price * 100;
+
+          return yesterdayDiffPercentageForADay;
+        },
         Cell: (props: any) => {
           const ticker: ITickerRecord = props.original;
           const yesterdayDiffPriceForADay = ticker.yesterday_last - ticker.yesterday_first;
@@ -163,7 +176,7 @@ class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
       <div className={styles.chartContainer}>
         <Helmet title="test" />
         {this.mapTickerNode(tickers)}
-        <ReactTable loading={isLoading} showPagination={false} data={tableData} columns={tableColumns} />
+        <ReactTable loading={isLoading} showPagination={false} minRows={9} data={tableData} columns={tableColumns} />
       </div>
     );
   }
