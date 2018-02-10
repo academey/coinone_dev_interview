@@ -6,11 +6,11 @@ export default class BaseAxios {
   protected instance = axios.create({
     baseURL: COINONE_API_HOST,
     withCredentials: false,
-    headers: {
-      "Access-Control-Allow-Credentials": true,
-      // "Access-Control-Allow-Origin": "http://localhost:8080/",
-      //Access-Control-Allow-Methods: POST,GET,OPTIONS,PUT,DELETE Content-Type: application/json
-    },
+    // headers: {
+    //   "Access-Control-Allow-Credentials": true,
+    //   // "Access-Control-Allow-Origin": "http://localhost:8080/",
+    //   //Access-Control-Allow-Methods: POST,GET,OPTIONS,PUT,DELETE Content-Type: application/json
+    // },
     timeout: 30000,
   });
 

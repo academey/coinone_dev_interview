@@ -1,27 +1,27 @@
 import { AxiosResponse, CancelTokenSource } from "axios";
 import BaseAxios from "./baseApi";
+import { ITickers, recordifyTickers, ITickersRecord } from "../models/ticker";
 
 export type COINONE_CURRENCY = "btc" | "bch" | "eth" | "etc" | "xrp" | "qtum" | "iota" | "ltc" | "btg" | "all";
 export type COINONE_PERIOD = "hour" | "day";
 
 interface IGetOrderBookParams {
-  currency: COINONE_CURRENCY;
+  currency?: COINONE_CURRENCY;
   cancelTokenSource: CancelTokenSource;
 }
 interface IGetOrderBookResult {}
 
 interface IGetRecentCompleteOrdersParams {
-  currency: COINONE_CURRENCY;
+  currency?: COINONE_CURRENCY;
   period: COINONE_PERIOD;
   cancelTokenSource: CancelTokenSource;
 }
 interface IGetRecentCompleteOrdersResult {}
 
-interface IGetTickerParams {
-  currency: COINONE_CURRENCY;
+interface IGetTickersParams {
+  currency?: COINONE_CURRENCY;
   cancelTokenSource: CancelTokenSource;
 }
-interface IGetTickerResult {}
 
 class CoinoneAPI extends BaseAxios {
   public async getOrderBook({
@@ -56,16 +56,17 @@ class CoinoneAPI extends BaseAxios {
     return getRecentCompleteOrdersData;
   }
 
-  public async getTicker({ currency = "btc", cancelTokenSource }: IGetTickerParams): Promise<IGetTickerResult> {
-    const getTickerResponse: AxiosResponse = await this.get("ticker", {
+  public async getTickers({ currency = "all", cancelTokenSource }: IGetTickersParams): Promise<ITickersRecord> {
+    const getTickersResponse: AxiosResponse = await this.get("ticker", {
       params: {
         currency,
       },
       cancelToken: cancelTokenSource.token,
     });
-    const getTickerData = getTickerResponse.data;
+    const getTickersData: ITickers = getTickersResponse.data;
+    console.log("getTickersData is ", getTickersData);
 
-    return getTickerData;
+    return recordifyTickers(getTickersData);
   }
 }
 

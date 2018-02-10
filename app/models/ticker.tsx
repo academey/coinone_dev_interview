@@ -80,6 +80,8 @@ export function recordifyTickers(tickers: ITickers = initialTickers): ITickersRe
 
   ITickerCurrencyArray.forEach((currency: string) => {
     const ticker: IRawTicker = tickers[currency];
+    if (!ticker) return;
+
     resultTickers[currency] = recordify({
       first_price: ticker.first,
       last_price: ticker.last,
@@ -97,3 +99,5 @@ export function recordifyTickers(tickers: ITickers = initialTickers): ITickersRe
 
   return recordify(resultTickers);
 }
+
+export const TICKERS_INITIAL_STATE: ITickersRecord = recordifyTickers(initialTickers);

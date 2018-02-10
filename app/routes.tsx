@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Route, Switch } from "react-router-dom";
-import HomeContainer from "./components/home";
+import ChartContainer from "./components/chart";
 
 import "normalize.css";
 import "./root.scss";
@@ -13,7 +13,7 @@ export const RootRoutes = () => (
   <div>
     <Header />
     <Switch>
-      <Route exact path="/" component={HomeContainer} />
+      <Route exact path="/" component={ChartContainer} />
       <Route exact path="/users/sign_in" component={SignIn} />
       <Route exact path="/users/sign_up" component={SignUp} />
     </Switch>
