@@ -22,6 +22,10 @@ export function reducer(state = CHART_INITIAL_STATE, action: IReduxAction<any>):
       });
     }
 
+    case ACTION_TYPES.CHART_CHANGE_TITLE_CURRENCY: {
+      return state.set("titleCurrency", action.payload.currency);
+    }
+
     default:
       return state;
   }

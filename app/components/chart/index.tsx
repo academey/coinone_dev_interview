@@ -6,11 +6,13 @@ import { IChartStateRecord } from "./records";
 import { connect } from "react-redux";
 import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
 import { Helmet } from "react-helmet";
-import { ITickersRecord } from "../../models/ticker";
+import { ITickersRecord, ITickerRecord } from "../../models/ticker";
 
 import ChartTable from "./components/chartTable";
 import UserInformation from "./components/userInformation";
-import { ICurrentUserRecord } from '../../models/currentUser';
+import { ICurrentUserRecord } from "../../models/currentUser";
+import numberWithCommas from "../../helpers/numberWithCommas";
+import { COINONE_CURRENCY } from "../../api/coinone";
 
 const styles = require("./chart.scss");
 
@@ -30,36 +32,55 @@ function mapStateToProps(state: IAppState) {
   return {
     chartState: state.chart,
     tickers: state.tickers,
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
   };
 }
 
-class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
-  private getTickersInterval: any;
+class ChartContainer extends React.Component<IChartContainerProps, {}> {
+  private getTickersIntervalId: any;
 
   public componentDidMount() {
     this.getTickers();
-    this.getTickersInterval = setInterval(this.getTickers, 3000);
+    this.getTickersIntervalId = setInterval(this.getTickers, 3000);
   }
 
-  public componentWillUnMount() {
-    clearInterval(this.getTickersInterval);
+  public componentWillUnmount() {
+    clearInterval(this.getTickersIntervalId);
   }
 
   public render() {
-    const { tickers,currentUser } = this.props;
+    const { tickers, currentUser } = this.props;
 
     const isLoading = tickers.timestamp === null;
 
     return (
       <div className={styles.chartContainer}>
-        <Helmet title="test" />
+        <Helmet title={this.getTitleContent()} />
         <div className={styles.title}>Coin Chart(refresh per 3 sec)</div>
-        <ChartTable isLoading={isLoading} tickers={tickers} />
-        <UserInformation isLoggedIn={currentUser.isLoggedIn}/>
+        <ChartTable isLoading={isLoading} tickers={tickers} changeTitleCurrency={this.changeTitleCurrency} />
+        <UserInformation isLoggedIn={currentUser.isLoggedIn} />
       </div>
     );
   }
+
+  private changeTitleCurrency = (currency: COINONE_CURRENCY) => {
+    const { dispatch } = this.props;
+
+    dispatch(Actions.changeTitleCurrency(currency));
+  };
+
+  private getTitleContent = () => {
+    const { tickers, chartState } = this.props;
+    const isLoading = tickers.timestamp === null;
+
+    let titleContent = "Chart loading...";
+    if (!isLoading) {
+      const titleCurrencyTicker: ITickerRecord = tickers[chartState.titleCurrency];
+
+      titleContent = `(${numberWithCommas(titleCurrencyTicker.last_price)}) ${chartState.titleCurrency.toUpperCase()}`;
+    }
+    return titleContent;
+  };
 
   private getTickers = () => {
     const { dispatch } = this.props;

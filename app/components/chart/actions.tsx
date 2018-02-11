@@ -10,30 +10,23 @@ export function getOrderBook(currency: COINONE_CURRENCY, cancelTokenSource: Canc
     dispatch({
       type: ACTION_TYPES.CHART_START_TO_GET_ORDER_BOOK,
     });
-    const getOrderBookResult = await CoinoneAPI.getOrderBook({
-      currency,
-      cancelTokenSource,
-    });
-    dispatch({
-      type: ACTION_TYPES.CHART_SUCCEEDED_TO_GET_ORDER_BOOK,
-      payload: {
-        getOrderBookResult,
-      },
-    });
-    // try {
-    //   await CoinoneAPI.getOrderBook({
-    //     currency,
-    //     cancelTokenSource,
-    //   });
-    //   dispatch({
-    //     type: ACTION_TYPES.HOME_SUCCEEDED_TO_GET_ORDER_BOOK,
-    //   });
-    // } catch (err) {
-    //   alert(`Failed to get order Book ! ${err}`);
-    //   dispatch({
-    //     type: ACTION_TYPES.HOME_FAILED_TO_GET_ORDER_BOOK,
-    //   });
-    // }
+    try {
+      const getOrderBookResult = await CoinoneAPI.getOrderBook({
+        currency,
+        cancelTokenSource,
+      });
+      dispatch({
+        type: ACTION_TYPES.CHART_SUCCEEDED_TO_GET_ORDER_BOOK,
+        payload: {
+          getOrderBookResult,
+        },
+      });
+    } catch (err) {
+      alert(`Failed to get order Book ! ${err}`);
+      dispatch({
+        type: ACTION_TYPES.CHART_FAILED_TO_GET_ORDER_BOOK,
+      });
+    }
   };
 }
 
@@ -45,12 +38,27 @@ export function getTickers(cancelTokenSource: CancelTokenSource) {
     const getTickersResult: ITickersRecord = await CoinoneAPI.getTickers({
       cancelTokenSource,
     });
+    try {
+      dispatch({
+        type: ACTION_TYPES.CHART_SUCCEEDED_TO_GET_TICKERS,
+        payload: {
+          tickers: getTickersResult,
+        },
+      });
+    } catch (err) {
+      alert(`Failed to get tickers ! ${err}`);
+      dispatch({
+        type: ACTION_TYPES.CHART_FAILED_TO_GET_TICKERS,
+      });
+    }
+  };
+}
 
-    dispatch({
-      type: ACTION_TYPES.CHART_SUCCEEDED_TO_GET_TICKERS,
-      payload: {
-        tickers: getTickersResult,
-      },
-    });
+export function changeTitleCurrency(currency: COINONE_CURRENCY) {
+  return {
+    type: ACTION_TYPES.CHART_CHANGE_TITLE_CURRENCY,
+    payload: {
+      currency,
+    },
   };
 }

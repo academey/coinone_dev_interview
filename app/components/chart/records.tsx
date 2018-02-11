@@ -1,8 +1,10 @@
 import { TypedRecord, makeTypedFactory } from "typed-immutable-record";
+import { COINONE_CURRENCY } from "../../api/coinone";
 
 export interface IChartState {
   isLoading: boolean;
   hasError: boolean;
+  titleCurrency: COINONE_CURRENCY;
 }
 
 export interface IChartStateRecord extends TypedRecord<IChartStateRecord>, IChartState {}
@@ -10,6 +12,7 @@ export interface IChartStateRecord extends TypedRecord<IChartStateRecord>, IChar
 const initialChartState: IChartState = {
   isLoading: false,
   hasError: false,
+  titleCurrency: "btc",
 };
 
 export const ChartStateFactory = makeTypedFactory<IChartState, IChartStateRecord>(initialChartState);

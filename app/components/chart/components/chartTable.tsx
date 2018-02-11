@@ -3,12 +3,14 @@ import { ITickersRecord, ITickerCurrencyArray, ITickerRecord } from "../../../mo
 import numberWithCommas from "../../../helpers/numberWithCommas";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import { COINONE_CURRENCY } from "../../../api/coinone";
 
 const styles = require("./chartTable.scss");
 
 export interface IChartTableProps {
   isLoading: boolean;
   tickers: ITickersRecord;
+  changeTitleCurrency: (currency: COINONE_CURRENCY) => void;
 }
 
 const ChartTable = (props: IChartTableProps) => {
@@ -119,7 +121,16 @@ const ChartTable = (props: IChartTableProps) => {
     },
   ];
 
-  return <ReactTable className={styles.chartTable} loading={isLoading} showPagination={false} minRows={9} data={tableData} columns={tableColumns} />;
+  return (
+    <ReactTable
+      className={styles.chartTable}
+      loading={isLoading}
+      showPagination={false}
+      minRows={9}
+      data={tableData}
+      columns={tableColumns}
+    />
+  );
 };
 
 export default ChartTable;
