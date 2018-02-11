@@ -52,7 +52,7 @@ class ClientSideRenderer {
   }
 
   private getStore() {
-    if (EnvChecker.isDev() || EnvChecker.isStage()) {
+    if (EnvChecker.isDev()) {
       return createStore(
         rootReducer,
         initialState,

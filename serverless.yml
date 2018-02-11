@@ -20,6 +20,13 @@ functions:
       - http:
           method: any
           path: "${self:service}/{proxy+}"
+  getAccessToken:
+    handler: handler.getAccessToken
+    events:
+      - http:
+          method: post
+          path: "getAccessToken"
+          cors: true
 
 resources:
   Resources: ${file(cloudformation.json)}
