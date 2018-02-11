@@ -6,6 +6,7 @@ import { InputBox } from "../../common/inputBox/index";
 import * as Actions from "./actions";
 import { parse } from "qs";
 import { RouteProps } from "react-router";
+import Spinner from "../../common/spinner/index";
 const styles = require("./signIn.scss");
 
 interface ISignInContainerProps extends DispatchProp<ISignInContainerMappedState> {
@@ -42,19 +43,27 @@ class SignIn extends React.PureComponent<ISignInContainerProps, {}> {
   }
 
   public render() {
-    const { email, password } = this.props.signInState;
-    return (
-      <div className={styles.signInContainer}>
-        <div className={styles.title}>Sign IN</div>
-        <form onSubmit={this.signIn}>
-          Email:
-          <InputBox onChangeFunc={this.changeEmailInput} type="normal" defaultValue={email} />
-          Password:
-          <InputBox onChangeFunc={this.changePasswordInput} type="normal" defaultValue={password} />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
+    const { email, password, isLoading } = this.props.signInState;
+    if (isLoading) {
+      return (
+        <div className={styles.signInContainer}>
+          <Spinner className={styles.spinner} />
+        </div>
+      );
+    } else {
+      return (
+        <div className={styles.signInContainer}>
+          <div className={styles.title}>Sign IN</div>
+          <form onSubmit={this.signIn}>
+            Email:
+            <InputBox onChangeFunc={this.changeEmailInput} type="normal" defaultValue={email} />
+            Password:
+            <InputBox onChangeFunc={this.changePasswordInput} type="normal" defaultValue={password} />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      );
+    }
   }
 
   private getCurrentSearchParamsString = () => {

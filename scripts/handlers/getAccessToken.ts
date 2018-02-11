@@ -20,7 +20,7 @@ export default async function handler(event: LambdaProxy.Event, _context: Lambda
     method: "post",
     url: "https://api.coinone.co.kr/oauth/access_token",
     data: {
-      appId: paramsForGetAccessToken.appId,
+      app_id: paramsForGetAccessToken.appId,
       app_secret: process.env.COINONE_APP_SECRET_CODE,
       request_token: paramsForGetAccessToken.requestToken
     }
@@ -34,7 +34,7 @@ export default async function handler(event: LambdaProxy.Event, _context: Lambda
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Credentials": true
         },
-        body: `${response.data.accessToken}.png`
+        body: response.data.accessToken
       };
     })
     .catch((err: any) => {

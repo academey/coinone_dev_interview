@@ -27,6 +27,7 @@ functions:
           method: post
           path: "getAccessToken"
           cors: true
+
 resources:
   Resources:
     RenderLogGroup:

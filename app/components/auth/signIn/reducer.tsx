@@ -12,6 +12,24 @@ export function reducer(state = SIGN_IN_INITIAL_STATE, action: IReduxAction<any>
       return state.set("password", action.payload.password);
     }
 
+    case ACTION_TYPES.SIGN_IN_START_TO_GET_ACCESS_TOKEN: {
+      return state.withMutations(currentState => {
+        return currentState.set("isLoading", true).set("hasError", false);
+      });
+    }
+
+    case ACTION_TYPES.SIGN_IN_SUCCEEDED_TO_GET_ACCESS_TOKEN: {
+      return state.withMutations(currentState => {
+        return currentState.set("isLoading", false).set("hasError", false);
+      });
+    }
+
+    case ACTION_TYPES.SIGN_IN_FAILED_TO_GET_ACCESS_TOKEN: {
+      return state.withMutations(currentState => {
+        return currentState.set("isLoading", false).set("hasError", true);
+      });
+    }
+
     default:
       return state;
   }

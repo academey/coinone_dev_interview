@@ -35,6 +35,7 @@ export function getAccessToken(requestToken: string) {
       });
 
       const accessToken = getAccessTokenResponse.data;
+      console.log("accessToken is ", accessToken);
       dispatch({
         type: ACTION_TYPES.SIGN_IN_SUCCEEDED_TO_GET_ACCESS_TOKEN,
         payload: {
