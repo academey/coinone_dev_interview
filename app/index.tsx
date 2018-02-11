@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import * as ReactRouterRedux from "react-router-redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
-// redux middlewares
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 // helpers
 import EnvChecker from "./helpers/envChecker";
 // root reducer
@@ -68,9 +68,11 @@ class ClientSideRenderer {
   public renderReactApp() {
     ReactDom.render(
       <Provider store={this.store}>
-        <ReactRouterRedux.ConnectedRouter history={this.getHistoryObject()}>
-          <RootRoutes />
-        </ReactRouterRedux.ConnectedRouter>
+        <MuiThemeProvider>
+          <ReactRouterRedux.ConnectedRouter history={this.getHistoryObject()}>
+            <RootRoutes />
+          </ReactRouterRedux.ConnectedRouter>
+        </MuiThemeProvider>
       </Provider>,
       document.getElementById("react-app"),
     );

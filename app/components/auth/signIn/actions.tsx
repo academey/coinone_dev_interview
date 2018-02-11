@@ -21,7 +21,41 @@ export function changePasswordInput(password: string) {
     },
   };
 }
+export function getRequestToken() {
+  return async (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: ACTION_TYPES.SIGN_IN_START_TO_GET_ACCESS_TOKEN,
+    });
 
+    try {
+      const getRequestTokenResponse = await axios.get(
+        `https://coinone.co.kr/oauth/request_token/?app_id=${COINONE_APP_ID}`,
+      );
+
+      const requestToken = getRequestTokenResponse.data;
+      console.log("requestToken is ", requestToken);
+
+      const getAccessTokenResponse = await axios.post(`${LAMBDA_HOST}/getAccessToken`, {
+        requestToken,
+        appId: COINONE_APP_ID,
+      });
+      const accessToken = getAccessTokenResponse.data;
+
+      console.log("accessToken is ", accessToken);
+      dispatch({
+        type: ACTION_TYPES.SIGN_IN_SUCCEEDED_TO_GET_ACCESS_TOKEN,
+        payload: {
+          accessToken,
+        },
+      });
+    } catch (err) {
+      alert(err);
+      dispatch({
+        type: ACTION_TYPES.SIGN_IN_FAILED_TO_GET_ACCESS_TOKEN,
+      });
+    }
+  };
+}
 export function getAccessToken(requestToken: string) {
   return async (dispatch: Dispatch<any>) => {
     dispatch({
