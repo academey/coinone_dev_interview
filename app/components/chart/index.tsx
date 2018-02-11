@@ -49,19 +49,40 @@ class ChartContainer extends React.Component<IChartContainerProps, {}> {
   }
 
   public render() {
-    const { tickers, currentUser } = this.props;
-
+    const { tickers, currentUser, chartState } = this.props;
+    const { isPopoverOpen, popoverAnchorEl, popoverOpenCurrency } = chartState;
     const isLoading = tickers.timestamp === null;
 
     return (
       <div className={styles.chartContainer}>
         <Helmet title={this.getTitleContent()} />
         <div className={styles.title}>Coin Chart(refresh per 3 sec)</div>
-        <ChartTable isLoading={isLoading} tickers={tickers} changeTitleCurrency={this.changeTitleCurrency} />
+        <ChartTable
+          isLoading={isLoading}
+          tickers={tickers}
+          changeTitleCurrency={this.changeTitleCurrency}
+          isPopoverOpen={isPopoverOpen}
+          popoverAnchorEl={popoverAnchorEl}
+          popoverOpenCurrency={popoverOpenCurrency}
+          togglePopover={this.togglePopover}
+          closePopover={this.closePopover}
+        />
         <UserInformation isLoggedIn={currentUser.isLoggedIn} />
       </div>
     );
   }
+
+  private togglePopover = (currency: COINONE_CURRENCY, targetElement: any) => {
+    const { dispatch } = this.props;
+
+    dispatch(Actions.togglePopover(currency, targetElement));
+  };
+
+  private closePopover = () => {
+    const { dispatch } = this.props;
+
+    dispatch(Actions.closePopover());
+  };
 
   private changeTitleCurrency = (currency: COINONE_CURRENCY) => {
     const { dispatch } = this.props;

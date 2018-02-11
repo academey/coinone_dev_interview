@@ -18,8 +18,8 @@
   .leftBox {
     display: flex;
     flex-direction: column;
-
     flex: 1;
+
     .footerLogo {
       display: inline-block;
       margin-right: 40px;
@@ -28,6 +28,13 @@
         height: 54px;
         object-fit: contain;
       }
+    }
+    .bold {
+      font-weight: bold;
+      display: inline;
+    }
+    .copyright {
+      font-weight: 300;
     }
   }
 

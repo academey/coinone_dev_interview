@@ -29,6 +29,25 @@ export function reducer(state = CHART_INITIAL_STATE, action: IReduxAction<any>):
       return state.set("titleCurrency", action.payload.currency);
     }
 
+    case ACTION_TYPES.CHART_TOGGLE_POPOVER: {
+      const toggledIsPopoverOpen = !state.isPopoverOpen;
+
+      return state.withMutations(currentState => {
+        return currentState
+          .set("popoverOpenCurrency", action.payload.currency)
+          .set("popoverAnchorEl", action.payload.targetElement)
+          .set("isPopoverOpen", toggledIsPopoverOpen);
+      });
+    }
+
+    case ACTION_TYPES.CHART_CLOSE_POPOVER: {
+      return state.set("isPopoverOpen", false);
+    }
+
+    case ACTION_TYPES.GLOBAL_LOCATION_CHANGE: {
+      return CHART_INITIAL_STATE;
+    }
+
     default:
       return state;
   }

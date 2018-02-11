@@ -3,6 +3,10 @@ import { ITickersRecord, ITickerCurrencyArray, ITickerRecord } from "../../../mo
 import numberWithCommas from "../../../helpers/numberWithCommas";
 import ReactTable from "react-table";
 import "react-table/react-table.css";
+import { RaisedButton, Popover } from "material-ui";
+import { Menu, MenuItem } from "material-ui/Menu";
+import { PopoverAnimationVertical } from "material-ui/Popover";
+
 import { COINONE_CURRENCY } from "../../../api/coinone";
 
 const styles = require("./chartTable.scss");
@@ -11,12 +15,26 @@ export interface IChartTableProps {
   isLoading: boolean;
   tickers: ITickersRecord;
   changeTitleCurrency: (currency: COINONE_CURRENCY) => void;
+  isPopoverOpen: boolean;
+  popoverAnchorEl: any;
+  popoverOpenCurrency: COINONE_CURRENCY;
+  togglePopover: (currency: COINONE_CURRENCY, targetElement: any) => void;
+  closePopover: () => void;
 }
 
 const ChartTable = (props: IChartTableProps) => {
-  const { isLoading, tickers } = props;
+  const {
+    isLoading,
+    tickers,
+    changeTitleCurrency,
+    isPopoverOpen,
+    popoverAnchorEl,
+    popoverOpenCurrency,
+    togglePopover,
+    closePopover,
+  } = props;
 
-  let tableData = Array();
+  const tableData = Array();
   ITickerCurrencyArray.forEach((currency: string) => {
     const ticker: ITickerRecord = tickers[currency];
     if (!ticker) return;
@@ -26,8 +44,40 @@ const ChartTable = (props: IChartTableProps) => {
   const tableColumns = [
     {
       Header: "Currency",
-      id: "currency", // Required because our accessor is not a string
-      accessor: (ticker: ITickerRecord) => ticker.currency.toUpperCase(),
+      accessor: "currency",
+      Cell: (props: any) => {
+        const ticker: ITickerRecord = props.original;
+        const tickerCurrency = ticker.currency;
+        const isThisPopoverOpen = isPopoverOpen && popoverOpenCurrency === ticker.currency;
+
+        return (
+          <RaisedButton
+            onClick={e => {
+              togglePopover(tickerCurrency, e.currentTarget);
+            }}
+            label={tickerCurrency.toUpperCase()}
+          >
+            <Popover
+              open={isThisPopoverOpen}
+              anchorEl={popoverAnchorEl}
+              anchorOrigin={{ horizontal: "left", vertical: "top" }}
+              targetOrigin={{ horizontal: "left", vertical: "top" }}
+              onRequestClose={closePopover}
+              animation={PopoverAnimationVertical}
+            >
+              <Menu>
+                <MenuItem
+                  primaryText="Show on Title"
+                  onClick={() => {
+                    changeTitleCurrency(tickerCurrency);
+                  }}
+                />
+                <MenuItem primaryText="Price Alarm" />
+              </Menu>
+            </Popover>
+          </RaisedButton>
+        );
+      },
     },
     {
       Header: "Price(￦)",

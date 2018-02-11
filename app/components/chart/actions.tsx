@@ -62,3 +62,19 @@ export function changeTitleCurrency(currency: COINONE_CURRENCY) {
     },
   };
 }
+
+export function togglePopover(currency: COINONE_CURRENCY, targetElement: any) {
+  return {
+    type: ACTION_TYPES.CHART_TOGGLE_POPOVER,
+    payload: {
+      currency,
+      targetElement,
+    },
+  };
+}
+
+export function closePopover() {
+  return {
+    type: ACTION_TYPES.CHART_CLOSE_POPOVER,
+  };
+}
