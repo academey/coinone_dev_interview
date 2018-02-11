@@ -68,7 +68,6 @@ export interface ITickerRecord extends TypedRecord<ITickerRecord>, ITicker {}
 
 export interface ITickersRecord extends TypedRecord<ITickersRecord>, ITickers {}
 
-// export const TickersFactory = makeTypedFactory<ITickers, ITickersRecord>(initialTickers);
 export const TickerFactory = makeTypedFactory<ITicker, ITickerRecord>(initialTicker);
 
 export const ITickerCurrencyArray = ["btc", "bch", "eth", "etc", "xrp", "qtum", "iota", "ltc", "btg"];

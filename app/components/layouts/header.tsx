@@ -24,15 +24,6 @@ class Header extends React.PureComponent<IHeaderComponentProps, IHeaderComponent
     this.getHangangTemperature();
   }
 
-  private getHangangTemperature = async () => {
-    let hangangTemperature: string;
-    hangangTemperature = await hangangAPI.getHangangTemperature();
-
-    this.setState({
-      hangangTemperature: parseFloat(hangangTemperature),
-    });
-  };
-
   public render() {
     return (
       <nav className={styles.navbar}>
@@ -61,6 +52,15 @@ class Header extends React.PureComponent<IHeaderComponentProps, IHeaderComponent
       </nav>
     );
   }
+
+  private getHangangTemperature = async () => {
+    let hangangTemperature: string;
+    hangangTemperature = await hangangAPI.getHangangTemperature();
+
+    this.setState({
+      hangangTemperature: parseFloat(hangangTemperature),
+    });
+  };
 }
 
 export default Header;

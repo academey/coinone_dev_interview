@@ -1,4 +1,5 @@
-import { TypedRecord, makeTypedFactory } from "typed-immutable-record";
+import { TypedRecord, recordify } from "typed-immutable-record";
+import { IBalancesRecord, recordifyBalances } from "./balance";
 
 export interface ICurrentUser {
   isLoggedIn: boolean;
@@ -6,6 +7,7 @@ export interface ICurrentUser {
   email: string | null;
   name: string | null;
   id: number | null;
+  balances: IBalancesRecord;
 }
 
 export const initialCurrentUser: ICurrentUser = {
@@ -14,10 +16,26 @@ export const initialCurrentUser: ICurrentUser = {
   email: null,
   name: null,
   id: null,
+  balances: null,
 };
 
 export interface ICurrentUserRecord extends TypedRecord<ICurrentUserRecord>, ICurrentUser {}
 
-export const CurrentUserFactory = makeTypedFactory<ICurrentUser, ICurrentUserRecord>(initialCurrentUser);
+export function recordifyCurrentUser(currentUser: ICurrentUser = initialCurrentUser): ICurrentUserRecord {
+  let recordifiedBalances: IBalancesRecord = null;
 
-export const CURRENT_USER_INITIAL_STATE: ICurrentUserRecord = CurrentUserFactory(initialCurrentUser);
+  if (!!currentUser.balances) {
+    recordifiedBalances = recordifyBalances(currentUser.balances);
+  }
+
+  return recordify({
+    isLoggedIn: currentUser.isLoggedIn,
+    oauthLoggedIn: currentUser.oauthLoggedIn,
+    email: currentUser.email,
+    name: currentUser.name,
+    id: currentUser.id,
+    balances: recordifiedBalances,
+  });
+}
+
+export const CURRENT_USER_INITIAL_STATE: ICurrentUserRecord = recordifyCurrentUser(initialCurrentUser);

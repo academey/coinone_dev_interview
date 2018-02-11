@@ -1,9 +1,11 @@
 import { AxiosResponse } from "axios";
 import axios from "axios";
 
+const HANGANG_API_HOST = "http://hangang.dkserver.wo.tc";
+
 class HangangAPI {
   private axios = axios.create({
-    baseURL: "http://hangang.dkserver.wo.tc",
+    baseURL: HANGANG_API_HOST,
     withCredentials: false,
     timeout: 30000,
   });
