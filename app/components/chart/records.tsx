@@ -1,5 +1,5 @@
 import { TypedRecord, makeTypedFactory } from "typed-immutable-record";
-import { COINONE_CURRENCY } from "../../api/coinone";
+import { COINONE_CURRENCY } from "../../api/currency";
 
 export interface IChartState {
   isLoading: boolean;

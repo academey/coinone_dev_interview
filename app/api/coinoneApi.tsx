@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios";
 const COINONE_API_HOST = "https://api.coinone.co.kr";
 export const COINONE_APP_ID = "285f9a16-8cdd-471e-a4a0-14ced9da74d5";
 
-export class BaseAxios {
+export class CoinoneAxios {
   protected instance = axios.create({
     baseURL: COINONE_API_HOST,
     withCredentials: false,

@@ -1,8 +1,7 @@
 import { Dispatch } from "redux";
 import { ACTION_TYPES } from "../../actions/actionTypes";
-import CoinoneAPI from "../../api/coinone";
+import CoinoneAPI, { COINONE_CURRENCY } from "../../api/currency";
 import { CancelTokenSource } from "axios";
-import { COINONE_CURRENCY } from "../../api/coinone";
 import { ITickersRecord } from "../../models/ticker";
 
 export function getOrderBook(currency: COINONE_CURRENCY, cancelTokenSource: CancelTokenSource) {

@@ -12,7 +12,7 @@ import ChartTable from "./components/chartTable";
 import UserInformation from "./components/userInformation";
 import { ICurrentUserRecord } from "../../models/currentUser";
 import numberWithCommas from "../../helpers/numberWithCommas";
-import { COINONE_CURRENCY } from "../../api/coinone";
+import { COINONE_CURRENCY } from "../../api/currency";
 
 const styles = require("./chart.scss");
 

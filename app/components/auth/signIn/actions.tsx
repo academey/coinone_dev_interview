@@ -1,8 +1,7 @@
 import { ACTION_TYPES } from "../../../actions/actionTypes";
 import { Dispatch } from "redux";
-import { LAMBDA_HOST } from "../../../helpers/envChecker";
-import axios from "axios";
-import { COINONE_APP_ID } from "../../../api/baseApi";
+import { CancelTokenSource } from "axios";
+import oauthApi from "../../../api/oauth";
 
 export function changeEmailInput(email: string) {
   return {
@@ -21,27 +20,18 @@ export function changePasswordInput(password: string) {
     },
   };
 }
-export function getRequestToken() {
+export function getRequestToken(cancelTokenSource: CancelTokenSource) {
   return async (dispatch: Dispatch<any>) => {
     dispatch({
       type: ACTION_TYPES.SIGN_IN_START_TO_GET_ACCESS_TOKEN,
     });
 
     try {
-      const getRequestTokenResponse = await axios.get(
-        `https://coinone.co.kr/oauth/request_token/?app_id=${COINONE_APP_ID}`,
-      );
-
-      const requestToken = getRequestTokenResponse.data;
+      const requestToken = await oauthApi.getRequestToken(cancelTokenSource);
       console.log("requestToken is ", requestToken);
-
-      const getAccessTokenResponse = await axios.post(`${LAMBDA_HOST}/getAccessToken`, {
-        requestToken,
-        appId: COINONE_APP_ID,
-      });
-      const accessToken = getAccessTokenResponse.data;
-
+      const accessToken = await oauthApi.getAccessToken({ requestToken, cancelTokenSource });
       console.log("accessToken is ", accessToken);
+
       dispatch({
         type: ACTION_TYPES.SIGN_IN_SUCCEEDED_TO_GET_ACCESS_TOKEN,
         payload: {
@@ -56,19 +46,14 @@ export function getRequestToken() {
     }
   };
 }
-export function getAccessToken(requestToken: string) {
+export function getAccessToken(requestToken: string, cancelTokenSource: CancelTokenSource) {
   return async (dispatch: Dispatch<any>) => {
     dispatch({
       type: ACTION_TYPES.SIGN_IN_START_TO_GET_ACCESS_TOKEN,
     });
 
     try {
-      const getAccessTokenResponse = await axios.post(`${LAMBDA_HOST}/getAccessToken`, {
-        requestToken,
-        appId: COINONE_APP_ID,
-      });
-
-      const accessToken = getAccessTokenResponse.data;
+      const accessToken = await oauthApi.getAccessToken({ requestToken, cancelTokenSource });
       console.log("accessToken is ", accessToken);
       dispatch({
         type: ACTION_TYPES.SIGN_IN_SUCCEEDED_TO_GET_ACCESS_TOKEN,

@@ -7,6 +7,7 @@ import * as Actions from "./actions";
 import { parse } from "qs";
 import { RouteProps } from "react-router";
 import Spinner from "../../common/spinner/index";
+import AxiosCancelTokenManager from "../../../helpers/axiosCancelTokenManager";
 const styles = require("./signIn.scss");
 
 interface ISignInContainerProps extends DispatchProp<ISignInContainerMappedState> {
@@ -38,7 +39,7 @@ class SignIn extends React.PureComponent<ISignInContainerProps, {}> {
     const requestToken = searchParams.request_token;
 
     if (!!requestToken) {
-      dispatch(Actions.getRequestToken());
+      dispatch(Actions.getRequestToken(this.getAxiosCancelToken()));
     }
   }
 
@@ -89,6 +90,11 @@ class SignIn extends React.PureComponent<ISignInContainerProps, {}> {
     const { dispatch } = this.props;
 
     dispatch(Actions.changePasswordInput(""));
+  };
+
+  private getAxiosCancelToken = () => {
+    const axiosCancelTokenManager = new AxiosCancelTokenManager();
+    return axiosCancelTokenManager.getCancelTokenSource();
   };
 }
 

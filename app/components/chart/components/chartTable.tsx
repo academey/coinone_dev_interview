@@ -6,7 +6,7 @@ import "react-table/react-table.css";
 import { RaisedButton, Popover } from "material-ui";
 import { Menu, MenuItem } from "material-ui/Menu";
 import { PopoverAnimationVertical } from "material-ui/Popover";
-import { COINONE_CURRENCY } from "../../../api/coinone";
+import { COINONE_CURRENCY } from "../../../api/currency";
 import alertToast from "../../../helpers/makeToastAction";
 
 const styles = require("./chartTable.scss");

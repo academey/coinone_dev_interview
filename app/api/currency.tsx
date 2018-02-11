@@ -1,9 +1,8 @@
 import { AxiosResponse, CancelTokenSource } from "axios";
-import { BaseAxios } from "./baseApi";
+import { CoinoneAxios } from "./coinoneApi";
 import { ITickers, recordifyTickers, ITickersRecord } from "../models/ticker";
 
 export type COINONE_CURRENCY = "btc" | "bch" | "eth" | "etc" | "xrp" | "qtum" | "iota" | "ltc" | "btg" | "all";
-
 export type COINONE_PERIOD = "hour" | "day";
 
 interface IGetOrderBookParams {
@@ -24,7 +23,7 @@ interface IGetTickersParams {
   cancelTokenSource: CancelTokenSource;
 }
 
-class CoinoneAPI extends BaseAxios {
+class CurrencyAPI extends CoinoneAxios {
   public async getOrderBook({
     currency = "btc",
     cancelTokenSource,
@@ -70,6 +69,6 @@ class CoinoneAPI extends BaseAxios {
   }
 }
 
-const apiHelper = new CoinoneAPI();
+const apiHelper = new CurrencyAPI();
 
 export default apiHelper;
