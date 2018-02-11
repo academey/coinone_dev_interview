@@ -1,5 +1,5 @@
 const IP_REGEX = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
-export const LAMBDA_HOST = "https://dudhqqp89tsta.cloudfront.net";
+export const LAMBDA_HOST = "https://d1wuvpg9dc736.cloudfront.net";
 
 export default class EnvChecker {
   public static isDev(): boolean {

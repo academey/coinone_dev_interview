@@ -41,6 +41,22 @@ class SignIn extends React.PureComponent<ISignInContainerProps, {}> {
     }
   }
 
+  public render() {
+    const { email, password } = this.props.signInState;
+    return (
+      <div className={styles.signInContainer}>
+        <div className={styles.title}>Sign IN</div>
+        <form onSubmit={this.signIn}>
+          Email:
+          <InputBox onChangeFunc={this.changeEmailInput} type="normal" defaultValue={email} />
+          Password:
+          <InputBox onChangeFunc={this.changePasswordInput} type="normal" defaultValue={password} />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    );
+  }
+
   private getCurrentSearchParamsString = () => {
     const { routing } = this.props;
     return routing.location.search;
@@ -65,22 +81,6 @@ class SignIn extends React.PureComponent<ISignInContainerProps, {}> {
 
     dispatch(Actions.changePasswordInput(""));
   };
-
-  public render() {
-    const { email, password } = this.props.signInState;
-    return (
-      <div className={styles.signInContainer}>
-        <div className={styles.title}>Sign IN</div>
-        <form onSubmit={this.signIn}>
-          Email:
-          <InputBox onChangeFunc={this.changeEmailInput} type="normal" defaultValue={email} />
-          Password:
-          <InputBox onChangeFunc={this.changePasswordInput} type="normal" defaultValue={password} />
-          <button type="submit">Submit</button>
-        </form>
-      </div>
-    );
-  }
 }
 
 export default connect(mapStateToProps)(SignIn);
