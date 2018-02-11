@@ -8,8 +8,8 @@ Released Features
 
 1. Show crypto coin Chart(price, price diff a day, volume, yesterday)
 2. Oauth login through Lambda
-   <!-- 3. Analyze your coin status(using coinone user api)
-3. Alarm following coin change -->
+3. _WIP_ Analyze your coin status(using coinone user api)
+4. _WIP_ Alarm following coin change
 
 # Project spec
 
