@@ -1,28 +1,25 @@
-# coinone_dev_coding_test
+# coinone_dev_interview
 
-This project is for cryptoCurrency analysis at coinone with ReactJS client-side-rendering using AWS Lambda.
+This project is for cryptoCurrency analysis through coinone using ReactJS client-side-rendering with AWS Lambda.
 
-The [Demo & Docs](https://d1wuvpg9dc736.cloudfront.net) is now available!
+**_The [Demo & Docs](https://d1wuvpg9dc736.cloudfront.net) is now available!_**
 
 Released Features
 
 1. Show crypto coin Chart(price, price diff a day, volume, yesterday)
 2. Oauth login through Lambda
-3. _WIP_ Analyze your coin status(using coinone user api)
-4. _WIP_ Alarm following coin change
+3. @_WIP_@ Analyze your coin status(using coinone user api)
+4. @_WIP_@ Alarm following coin change
 
 # Project spec
-
-* React v16.0
-* React-Router v4
-* Other dependencies
-
-  **Packages**
 
 * **TypeScript** - Basic language
 * **ReactJS** - Frontend library
 * **Redux** - App state manager
-* **Serverless** - managing AWS Lambda, API Gateway, and the others within cloud-formation
+* **Serverless** - managing AWS Lambda, API
+* Other dependencies - material-ui, toastr, react-table ... etc
+
+Gateway, and the others within cloud-formation
 
 # Before Project Start
 
@@ -80,6 +77,7 @@ we will appreciate all of your contributions. thanks.
 ## Authors
 
 * **academey** [GitHub](https://github.com/academey)
+  / [LinkedIn](https://www.linkedin.com/in/hyun-joon-park-aa7902136/)
 
 ### Logs in Terminal (please read serverless official docs)
 
