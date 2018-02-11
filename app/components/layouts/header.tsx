@@ -2,12 +2,37 @@ import * as React from "react";
 import { Link } from "react-router-dom";
 import Icon from "../../icons/index";
 import oauthApi from "../../api/oauth";
+import hangangAPI from "../../api/hangang";
 
 const styles = require("./header.scss");
 
 interface IHeaderComponentProps {}
+interface IHeaderComponentState {
+  hangangTemperature: number;
+}
 
-class Header extends React.PureComponent<IHeaderComponentProps, {}> {
+class Header extends React.PureComponent<IHeaderComponentProps, IHeaderComponentState> {
+  constructor(props: IHeaderComponentProps) {
+    super(props);
+
+    this.state = {
+      hangangTemperature: null,
+    };
+  }
+
+  public componentDidMount() {
+    this.getHangangTemperature();
+  }
+
+  private getHangangTemperature = async () => {
+    let hangangTemperature: string;
+    hangangTemperature = await hangangAPI.getHangangTemperature();
+
+    this.setState({
+      hangangTemperature: parseFloat(hangangTemperature),
+    });
+  };
+
   public render() {
     return (
       <nav className={styles.navbar}>
@@ -22,6 +47,7 @@ class Header extends React.PureComponent<IHeaderComponentProps, {}> {
             <Link className={styles.linkItem} to="/drawing">
               Expectation
             </Link>
+            <label className={styles.hangangTemperature}>{`${this.state.hangangTemperature}°C`}</label>
           </div>
           <div className={styles.rightBox}>
             <a href={oauthApi.getOauthLoginUrl()} className={styles.linkItem}>

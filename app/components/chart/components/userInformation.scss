@@ -2,4 +2,22 @@
 
 .userInformationContainer {
   margin-top: 20px;
+
+  .title {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 30px;
+  }
+
+  .description {
+    margin-top: 5px;
+  }
+
+  .notLoggedIn {
+    display: inline-block;
+    margin-top: 10px;
+    color: $coinone_red;
+    font-weight: 500;
+    text-decoration: underline;
+  }
 }

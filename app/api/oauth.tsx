@@ -28,7 +28,19 @@ class OauthAPI extends CoinoneAxios {
       cancelToken: cancelTokenSource.token,
     });
 
-    const accessToken = getAccessTokenResponse.data;
+    const accessToken = getAccessTokenResponse.data.accessToken;
+
+    return accessToken;
+  }
+
+  public async refreshAccessToken(cancelTokenSource: CancelTokenSource): Promise<string> {
+    const refreshAccessTokenResponse: AxiosResponse = await this.get("oauth/refresh_token", {
+      params: {
+        app_id: COINONE_APP_ID,
+      },
+      cancelToken: cancelTokenSource.token,
+    });
+    const accessToken = refreshAccessTokenResponse.data.accessToken;
 
     return accessToken;
   }

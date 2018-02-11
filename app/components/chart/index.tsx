@@ -56,7 +56,8 @@ class ChartContainer extends React.Component<IChartContainerProps, {}> {
     return (
       <div className={styles.chartContainer}>
         <Helmet title={this.getTitleContent()} />
-        <div className={styles.title}>Coin Chart(refresh per 3 sec)</div>
+        <div className={styles.title}>Coin Chart</div>
+        <div className={styles.description}>(refresh per 3 sec)</div>
         <ChartTable
           isLoading={isLoading}
           tickers={tickers}
