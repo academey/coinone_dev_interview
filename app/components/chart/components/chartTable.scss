@@ -1,10 +1,12 @@
+@import "../../variables";
+
 .chartTable {
   margin-top: 20px;
 
   .surplusForADay {
-    color: red;
+    color: $coinone_red;
   }
   .deficitForADay {
-    color: blue;
+    color: $coinone_blue;
   }
 }

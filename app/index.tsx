@@ -15,6 +15,7 @@ import { rootReducer, initialState } from "./reducers";
 // routes
 import { RootRoutes } from "./routes";
 import { Store } from "redux";
+import ReduxNotifier from "./helpers/notifier";
 
 class ClientSideRenderer {
   private history: History;
@@ -56,10 +57,14 @@ class ClientSideRenderer {
       return createStore(
         rootReducer,
         initialState,
-        applyMiddleware(this.routerMiddleware, thunkMiddleware, this.loggerMiddleware),
+        applyMiddleware(this.routerMiddleware, thunkMiddleware, ReduxNotifier, this.loggerMiddleware),
       );
     } else {
-      return createStore(rootReducer, initialState, applyMiddleware(this.routerMiddleware, thunkMiddleware));
+      return createStore(
+        rootReducer,
+        initialState,
+        applyMiddleware(this.routerMiddleware, thunkMiddleware, ReduxNotifier),
+      );
     }
   }
 

@@ -6,8 +6,8 @@ import "react-table/react-table.css";
 import { RaisedButton, Popover } from "material-ui";
 import { Menu, MenuItem } from "material-ui/Menu";
 import { PopoverAnimationVertical } from "material-ui/Popover";
-
 import { COINONE_CURRENCY } from "../../../api/coinone";
+import alertToast from "../../../helpers/makeToastAction";
 
 const styles = require("./chartTable.scss");
 
@@ -70,9 +70,23 @@ const ChartTable = (props: IChartTableProps) => {
                   primaryText="Show on Title"
                   onClick={() => {
                     changeTitleCurrency(tickerCurrency);
+                    alertToast({
+                      type: "info",
+                      message: `${tickerCurrency.toUpperCase()} is showing on tab...`,
+                    });
+                    closePopover();
                   }}
                 />
-                <MenuItem primaryText="Price Alarm" />
+                <MenuItem
+                  primaryText="Price Alarm"
+                  onClick={() => {
+                    alertToast({
+                      type: "info",
+                      message: `${tickerCurrency.toUpperCase()} is showing on tab...`,
+                    });
+                    closePopover();
+                  }}
+                />
               </Menu>
             </Popover>
           </RaisedButton>
