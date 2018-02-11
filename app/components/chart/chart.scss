@@ -1,19 +1,11 @@
 @import "../variables";
 
 .chartContainer {
-  margin-top: $navbar-height;
+  padding-top: $navbar-height;
 
-  .surplusForADay {
-    color: red;
-  }
-  .deficitForADay {
-    color: blue;
-  }
-  .tickerItems {
-    display: flex;
-
-    .ticker {
-      display: flex;
-    }
+  .title {
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 20px;
   }
 }

@@ -1,22 +1,23 @@
+const path = require("path");
 const webpack = require("webpack");
-const autoprefixer = require("autoprefixer");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+require("extract-text-webpack-plugin");
 
 module.exports = {
-  entry: ["./app/index.tsx"],
+  entry: ["babel-polyfill", "./app/index.tsx"],
   output: {
-    libraryTarget: "commonjs",
-    library: "ssr",
-    filename: "./dist/bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
   },
-  target: "node",
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
+        exclude: /node_modules/,
+        loader: "awesome-typescript-loader",
       },
       {
         test: /\.svg$/,
@@ -46,7 +47,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: true,
-              localIdentName: "[name]__[local]__[hash:base64:3]",
+              localIdentName: "[name]__[local]__[hash:base64:6]",
             },
           },
           {
@@ -62,6 +63,9 @@ module.exports = {
       },
     ],
   },
+  node: {
+    fs: "empty",
+  },
   externals: {
     "react/lib/ExecutionEnvironment": true,
     "react/lib/ReactContext": true,
@@ -73,5 +77,10 @@ module.exports = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      template: "app/index.ejs",
+      inject: false,
+      NODE_ENV: "production",
+    }),
   ],
 };

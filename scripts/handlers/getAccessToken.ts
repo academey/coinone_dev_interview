@@ -1,9 +1,7 @@
-const bundle = require("./bundle");
+import * as LambdaProxy from "../interfaces/lambda-proxy";
 const axios = require("axios");
 
-module.exports.ssr = bundle.ssr.handler;
-
-module.exports.getAccessToken = (event, context, callback) => {
+export default async function handler(event: LambdaProxy.Event, _context: LambdaProxy.Context) {
   //-post 방식-
   //https://api.coinone.co.kr/oauth/access_token/?app_id=[App_Id]&app_secret=[App_Secret]&request_token=[Request token]
   /*
@@ -17,31 +15,31 @@ module.exports.getAccessToken = (event, context, callback) => {
       data: {
         appId: "Fred",
         app_secret: "Flintstone",
-        request_token: "requestToken"
-      }
+        request_token: "requestToken",
+      },
     })
-      .then(response => {
+      .then((response: any) => {
         console.log("success response is ", response);
-        context.succeed({
+        return {
           statusCode: 200,
           headers: {
             "Content-Type": "text/html",
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
+            "Access-Control-Allow-Credentials": true,
           },
-          body: `${response.data.accessToken}.png`
-        });
+          body: `${response.data.accessToken}.png`,
+        };
       })
-      .catch(err => {
+      .catch((err: any) => {
         console.error(err);
-        callback(null, {
+        return {
           statusCode: 500,
           headers: {
             "Content-Type": "text/html",
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
-          }
-        });
+            "Access-Control-Allow-Credentials": true,
+          },
+        };
       });
   }
-};
+}

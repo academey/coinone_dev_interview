@@ -5,11 +5,18 @@
   <meta charset="utf-8">
   <title>Dev Interview Project for Coinone</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://s3.ap-northeast-2.amazonaws.com/coinone-cloudflare-landing/icon/android-icon-192x192.png">
 </head>
 
 <body>
   <div id="react-app"></div>
-  <script src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
+  <% if (htmlWebpackPlugin.options.NODE_ENV == 'development') { %>
+    <script src="<%= htmlWebpackPlugin.files.js[0] %>"></script>
+    <% } else if (htmlWebpackPlugin.options.NODE_ENV == 'stage') { %>
+      <script src="https://s3.amazonaws.com/coinone-dev-interview-apps/stage/<%= htmlWebpackPlugin.files.js[0] %>?<%= Math.floor(Math.random() * 100000000000) %>"></script>
+      <% } else { %>
+        <script src="https://s3.amazonaws.com/coinone-dev-interview-apps/<%= htmlWebpackPlugin.files.js[0] %>?<%= Math.floor(Math.random() * 100000000000) %>"></script>
+        <% } %>
 </body>
 
 </html>

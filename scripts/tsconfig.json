@@ -1,22 +1,17 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
-    "sourceMap": true,
+    "outDir": "../dist-sls",
     "noImplicitAny": true,
     "allowUnusedLabels": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "target": "es2015",
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "es5",
     "jsx": "react",
     "lib": ["es6", "es2016", "dom", "esnext.asynciterable"],
     "removeComments": true,
     "experimentalDecorators": true
   },
-  "include": ["app/**/*"],
-  "exclude": ["node_modules/**/*"],
-  "awesomeTypescriptLoaderOptions": {
-    "useCache": true,
-    "useBabel": true
-  }
+  "include": ["./**/*"],
+  "exclude": ["node_modules/**/*"]
 }

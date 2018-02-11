@@ -6,34 +6,60 @@ import { IChartStateRecord } from "./records";
 import { connect } from "react-redux";
 import AxiosCancelTokenManager from "../../helpers/axiosCancelTokenManager";
 import { Helmet } from "react-helmet";
+import { ITickersRecord } from "../../models/ticker";
 
-import ReactTable from "react-table";
-import "react-table/react-table.css";
-
-import { ITickersRecord, ITickerRecord, ITickerCurrencyArray } from "../../models/ticker";
-import numberWithCommas from "../../helpers/numberWithCommas";
+import ChartTable from "./components/chartTable";
+import UserInformation from "./components/userInformation";
+import { ICurrentUserRecord } from '../../models/currentUser';
 
 const styles = require("./chart.scss");
 
 export interface IChartContainerMappedState {
   chartState: IChartStateRecord;
   tickers: ITickersRecord;
+  currentUser: ICurrentUserRecord;
 }
 
 export interface IChartContainerProps extends DispatchProp<IChartContainerMappedState> {
   chartState: IChartStateRecord;
   tickers: ITickersRecord;
+  currentUser: ICurrentUserRecord;
 }
 
 function mapStateToProps(state: IAppState) {
   return {
     chartState: state.chart,
     tickers: state.tickers,
+    currentUser: state.currentUser
   };
 }
 
 class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
   private getTickersInterval: any;
+
+  public componentDidMount() {
+    this.getTickers();
+    this.getTickersInterval = setInterval(this.getTickers, 3000);
+  }
+
+  public componentWillUnMount() {
+    clearInterval(this.getTickersInterval);
+  }
+
+  public render() {
+    const { tickers,currentUser } = this.props;
+
+    const isLoading = tickers.timestamp === null;
+
+    return (
+      <div className={styles.chartContainer}>
+        <Helmet title="test" />
+        <div className={styles.title}>Coin Chart(refresh per 3 sec)</div>
+        <ChartTable isLoading={isLoading} tickers={tickers} />
+        <UserInformation isLoggedIn={currentUser.isLoggedIn}/>
+      </div>
+    );
+  }
 
   private getTickers = () => {
     const { dispatch } = this.props;
@@ -45,141 +71,6 @@ class ChartContainer extends React.PureComponent<IChartContainerProps, {}> {
     const axiosCancelTokenManager = new AxiosCancelTokenManager();
     return axiosCancelTokenManager.getCancelTokenSource();
   };
-
-  public componentDidMount() {
-    this.getTickers();
-    this.getTickersInterval = setInterval(this.getTickers, 3000);
-  }
-
-  public componentWillUnMount() {
-    clearInterval(this.getTickersInterval);
-  }
-
-  private mapTickerNode = (tickers: ITickersRecord) => {
-    const tickerItems = ITickerCurrencyArray.map((currency: string, index) => {
-      const ticker: ITickerRecord = tickers[currency];
-      if (!ticker) return;
-      return (
-        <div key={`ticker_${index}`} className={styles.ticker}>
-          <span className={styles.label}>{ticker.last_price}</span>
-          <span className={styles.label}>{ticker.currency}</span>
-        </div>
-      );
-    });
-
-    return <div className={styles.tickerItems}>{tickerItems}</div>;
-  };
-
-  public render() {
-    const { tickers } = this.props;
-
-    let tableData = Array();
-    ITickerCurrencyArray.forEach((currency: string) => {
-      const ticker: ITickerRecord = tickers[currency];
-      if (!ticker) return;
-      tableData.push(ticker);
-    });
-
-    const tableColumns = [
-      {
-        Header: "Currency",
-        id: "currency", // Required because our accessor is not a string
-        accessor: (ticker: ITickerRecord) => ticker.currency.toUpperCase(),
-      },
-      {
-        Header: "Price(￦)",
-        id: "last_price", // Required because our accessor is not a string
-        accessor: (ticker: ITickerRecord) => numberWithCommas(ticker.last_price),
-        sortMethod: (a: string, b: string) => {
-          const commaRemovedA = a.replace(/,/gi, "");
-          const commaRemovedB = b.replace(/,/gi, "");
-
-          return parseInt(commaRemovedA, 10) > parseInt(commaRemovedB, 10) ? 1 : -1;
-        },
-      },
-      {
-        Header: "Price Diff(￦, %)",
-        id: "price_diff", // Required because our accessor is not a string
-        accessor: (ticker: ITickerRecord) => {
-          const diffPriceForADay = ticker.last_price - ticker.first_price;
-          const diffPercentageForADay = diffPriceForADay / ticker.first_price * 100;
-
-          return diffPercentageForADay;
-        },
-        Cell: (props: any) => {
-          const ticker: ITickerRecord = props.original;
-          const diffPriceForADay = ticker.last_price - ticker.first_price;
-          const diffPercentageForADay = (diffPriceForADay / ticker.first_price * 100).toFixed(2);
-          const surplusForADay = diffPriceForADay > 0;
-
-          if (surplusForADay) {
-            return (
-              <span className="number">
-                {`+${numberWithCommas(diffPriceForADay)}`}
-                <span className={styles.surplusForADay}>{` (${diffPercentageForADay}%)`}</span>
-              </span>
-            );
-          } else {
-            return (
-              <span className="number">
-                {`${numberWithCommas(diffPriceForADay)}`}
-                <span className={styles.deficitForADay}>{` (${diffPercentageForADay}%)`}</span>
-              </span>
-            );
-          }
-        },
-      },
-      {
-        Header: "Volume",
-        accessor: "volume",
-      },
-      {
-        Header: "Yesterday(￦, %)",
-        id: "yesterday_diff", // Required because our accessor is not a string
-        accessor: (ticker: ITickerRecord) => {
-          const yesterdayDiffPriceForADay = ticker.yesterday_last - ticker.yesterday_first;
-          const yesterdayDiffPercentageForADay = yesterdayDiffPriceForADay / ticker.first_price * 100;
-
-          return yesterdayDiffPercentageForADay;
-        },
-        Cell: (props: any) => {
-          const ticker: ITickerRecord = props.original;
-          const yesterdayDiffPriceForADay = ticker.yesterday_last - ticker.yesterday_first;
-          const yesterdayDiffPercentageForADay = (yesterdayDiffPriceForADay / ticker.first_price * 100).toFixed(2);
-          const yesterdaySurplusForADay = yesterdayDiffPriceForADay > 0;
-
-          if (yesterdaySurplusForADay) {
-            return (
-              <span className="number">
-                {numberWithCommas(ticker.yesterday_last)}{" "}
-                <span className={styles.surplusForADay}>{`+${numberWithCommas(
-                  yesterdayDiffPriceForADay,
-                )} (${yesterdayDiffPercentageForADay}%)`}</span>
-              </span>
-            );
-          } else {
-            return (
-              <span className="number">
-                {numberWithCommas(ticker.yesterday_last)}{" "}
-                <span className={styles.deficitForADay}>{`-${numberWithCommas(
-                  yesterdayDiffPriceForADay,
-                )} (${yesterdayDiffPercentageForADay}%)`}</span>
-              </span>
-            );
-          }
-        },
-      },
-    ];
-
-    const isLoading = tickers.timestamp === null;
-    return (
-      <div className={styles.chartContainer}>
-        <Helmet title="test" />
-        {this.mapTickerNode(tickers)}
-        <ReactTable loading={isLoading} showPagination={false} minRows={9} data={tableData} columns={tableColumns} />
-      </div>
-    );
-  }
 }
 
 export default connect(mapStateToProps)(ChartContainer);

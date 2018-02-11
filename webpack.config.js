@@ -1,21 +1,25 @@
-require("extract-text-webpack-plugin");
+const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Jarvis = require("webpack-jarvis");
+const { CheckerPlugin } = require("awesome-typescript-loader");
+require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: ["babel-polyfill", "./app/index.tsx"],
   output: {
     filename: "./dist/bundle.js",
   },
-  devtool: "source-map",
+  devtool: "inline-source-map",
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
+        exclude: /node_modules/,
+        loader: "awesome-typescript-loader",
       },
       {
         test: /\.svg$/,
@@ -45,7 +49,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: true,
-              localIdentName: "[name]__[local]__[hash:base64:3]",
+              localIdentName: "[name]__[local]__[hash:base64:6]",
             },
           },
           {
@@ -70,6 +74,10 @@ module.exports = {
     "react/addons": true,
   },
   plugins: [
+    new CheckerPlugin(),
+    new Jarvis({
+      port: 1337,
+    }),
     new webpack.DefinePlugin({
       "process.env.NODE_ENV": JSON.stringify("development"),
     }),
@@ -79,6 +87,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "app/index.ejs",
       inject: false,
+      NODE_ENV: "development",
     }),
   ],
+  devServer: {
+    contentBase: path.join(__dirname, "app"),
+    compress: true,
+    host: "0.0.0.0",
+    hot: true,
+    allowedHosts: ["localhost", "lvh.me"],
+  },
 };

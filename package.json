@@ -4,16 +4,20 @@
   "description": "Coinone dev interview project",
   "main": "index.js",
   "scripts": {
-    "pack": "rm -f dist.zip && rm -f dist/bundleBrowser.js && cp scripts/package.json dist/package.json && cd dist && npm install --cache=./.npm --production && zip -q -r ../dist.zip . ** && cd ..",
-    "clean": "rm -rf dist && rm -rf temp && rm -f dist.zip",
-    "build": "npm run clean && webpack --config webpack.prod.config.js -p && npm run build-browser",
-    "build-browser": "webpack --config webpack.browser.config.js -p",
-    "deploy:stage": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage stage",
-    "deploy:prod": "npm run build && ts-node scripts/deployToStage.ts && cp temp/version dist && cp scripts/handler.js dist && npm run pack && serverless deploy --stage production",
-    "dev": "webpack-dev-server --content-base app/ --hot --progress --colors --host 0.0.0.0",
-    "lint": "tslint 'app/**/*.ts' -e 'app/**/*.d.ts' && sass-lint -c .sass-lint.yml --verbose",
-    "unit-test": "rm -r output | jest --coverage",
-    "test": "npm run lint && npm run unit-test"
+    "build": "webpack",
+    "clean": "rm -rf dist && rm -rf dist-sls && rm -rf temp && rm -f dist.zip && mkdir dist",
+    "build:stage": "npm run clean && webpack --config webpack.stage.config.js",
+    "build:prod": "npm run clean && webpack --config webpack.prod.config.js",
+    "build-sls": "tsc -p scripts",
+    "deploy": "node dist-sls/deploy/deploy.js",
+    "pack":
+      "cp version dist-sls/version && cp scripts/package.json dist-sls/package.json && cd dist-sls && npm install --production && zip -q -r ../dist.zip . ** && cd ..",
+    "deploy:stage":
+      "npm run clean && npm run build:stage && npm run build-sls && NODE_ENV=stage npm run deploy && npm run pack && serverless deploy -s stage",
+    "deploy:prod":
+      "npm run clean && npm run build:prod && npm run build-sls && NODE_ENV=production npm run deploy && npm run pack && serverless deploy -s prod",
+    "dev": "webpack-dev-server",
+    "test": "jest --coverage"
   },
   "engines": {
     "node": "6.5.0"
@@ -21,7 +25,7 @@
   "author": "academey <academey@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "@types/aws-sdk": "^2.7.0",
+    "@types/react-table": "^6.7.2",
     "@types/axios": "^0.14.0",
     "@types/enzyme": "^3.1.0",
     "@types/fs-extra": "4.0.2",
@@ -41,44 +45,45 @@
     "@types/redux-logger": "^3.0.5",
     "@types/redux-mock-store": "^0.0.11",
     "@types/redux-thunk": "^2.1.31",
-    "autoprefixer": "^7.1.6",
+    "autoprefixer": "^7.2.5",
+    "awesome-typescript-loader": "^3.4.1",
     "aws-sdk": "^2.138.0",
     "css-loader": "^0.28.7",
     "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "extract-text-webpack-plugin": "^3.0.1",
     "fs-extra": "^4.0.2",
     "html-loader": "^0.5.1",
     "html-webpack-plugin": "^2.30.1",
-    "imports-loader": "^0.7.1",
     "jasmine-reporters": "^2.2.1",
     "jest": "^21.2.1",
+    "markdown-loader": "^2.0.2",
     "node-sass": "^4.5.3",
     "postcss-flexbugs-fixes": "^3.2.0",
-    "postcss-loader": "^2.0.8",
+    "postcss-loader": "^2.0.10",
     "precss": "^2.0.0",
     "react-addons-test-utils": "^15.6.2",
     "redux-mock-store": "^1.3.0",
     "s3": "^4.4.0",
     "sass-lint": "^1.12.1",
     "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
     "serverless": "^1.23.0",
     "source-map-loader": "^0.2.2",
     "svg-sprite-loader": "^3.6.2",
     "ts-jest": "21.1.3",
-    "ts-loader": "^3.0.5",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.3",
-    "webpack": "^3.8.1",
-    "webpack-dev-server": "^2.9.3"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.0",
+    "webpack-jarvis": "^0.2.2"
   },
   "dependencies": {
-    "@types/react-table": "^6.7.2",
     "axios": "^0.17.0",
     "babel-polyfill": "^6.26.0",
     "firebase": "^4.7.0",
     "immutable": "^3.8.2",
     "normalize.css": "^7.0.0",
-    "prop-types": "^15.6.0",
     "qs": "^6.5.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
@@ -101,17 +106,9 @@
     "globals": {
       "__TS_CONFIG__": "tsconfig-test.json"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "testPathDirs": [
-      "<rootDir>/app"
-    ],
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
+    "moduleFileExtensions": ["ts", "tsx", "js"],
+    "testPathDirs": ["<rootDir>/app"],
+    "coveragePathIgnorePatterns": ["/node_modules/"],
     "coverageDirectory": "output/coverage",
     "testRegex": "__tests__/.*_spec.tsx$",
     "unmockedModulePathPatterns": [
@@ -123,9 +120,7 @@
       "/.*\\.scss$",
       "<rootDir>/app/__tests__"
     ],
-    "setupFiles": [
-      "<rootDir>/app/__tests__/preload.tsx"
-    ],
+    "setupFiles": ["<rootDir>/app/__tests__/preload.tsx"],
     "automock": true
   }
 }

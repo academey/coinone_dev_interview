@@ -1,20 +1,23 @@
+const path = require("path");
 const webpack = require("webpack");
-const autoprefixer = require("autoprefixer");
-const BROWSER_BUNDLE_FILE_NAME = "bundleBrowser.js";
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+require("extract-text-webpack-plugin");
 
 module.exports = {
   entry: ["babel-polyfill", "./app/index.tsx"],
   output: {
-    filename: `./dist/${BROWSER_BUNDLE_FILE_NAME}`,
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
   },
   resolve: {
-    extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: "ts-loader",
+        exclude: /node_modules/,
+        loader: "awesome-typescript-loader",
       },
       {
         test: /\.svg$/,
@@ -44,7 +47,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: true,
-              localIdentName: "[name]__[local]__[hash:base64:3]",
+              localIdentName: "[name]__[local]__[hash:base64:6]",
             },
           },
           {
@@ -74,5 +77,10 @@ module.exports = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      template: "app/index.ejs",
+      inject: false,
+      NODE_ENV: "stage",
+    }),
   ],
 };
