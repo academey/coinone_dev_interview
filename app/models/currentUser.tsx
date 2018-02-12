@@ -8,6 +8,7 @@ export interface ICurrentUser {
   name: string | null;
   id: number | null;
   balances: IBalancesRecord;
+  accessToken: string | null;
 }
 
 export const initialCurrentUser: ICurrentUser = {
@@ -17,6 +18,7 @@ export const initialCurrentUser: ICurrentUser = {
   name: null,
   id: null,
   balances: null,
+  accessToken: null,
 };
 
 export interface ICurrentUserRecord extends TypedRecord<ICurrentUserRecord>, ICurrentUser {}
@@ -35,6 +37,7 @@ export function recordifyCurrentUser(currentUser: ICurrentUser = initialCurrentU
     name: currentUser.name,
     id: currentUser.id,
     balances: recordifiedBalances,
+    accessToken: currentUser.accessToken,
   });
 }
 

@@ -2,6 +2,7 @@ import { ACTION_TYPES } from "../../../actions/actionTypes";
 import { Dispatch } from "redux";
 import { CancelTokenSource } from "axios";
 import oauthApi from "../../../api/oauth";
+import { push } from "react-router-redux";
 
 export function changeEmailInput(email: string) {
   return {
@@ -40,6 +41,7 @@ export function getRequestToken(cancelTokenSource: CancelTokenSource) {
       });
     } catch (err) {
       alert(err);
+      dispatch(push("/"));
       dispatch({
         type: ACTION_TYPES.SIGN_IN_FAILED_TO_GET_ACCESS_TOKEN,
       });
@@ -63,6 +65,7 @@ export function getAccessToken(requestToken: string, cancelTokenSource: CancelTo
       });
     } catch (err) {
       alert(err);
+      dispatch(push("/"));
       dispatch({
         type: ACTION_TYPES.SIGN_IN_FAILED_TO_GET_ACCESS_TOKEN,
       });

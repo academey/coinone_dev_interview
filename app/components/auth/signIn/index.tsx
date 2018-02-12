@@ -39,7 +39,7 @@ class SignIn extends React.PureComponent<ISignInContainerProps, {}> {
     const requestToken = searchParams.request_token;
 
     if (!!requestToken) {
-      dispatch(Actions.getRequestToken(this.getAxiosCancelToken()));
+      dispatch(Actions.getAccessToken(requestToken, this.getAxiosCancelToken()));
     }
   }
 
