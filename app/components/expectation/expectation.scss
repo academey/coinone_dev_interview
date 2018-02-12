@@ -1,0 +1,7 @@
+@import "../variables";
+
+.expectationContainer {
+  padding-top: $navbar-height;
+  max-width: $container_width;
+  margin: 0 auto;
+}

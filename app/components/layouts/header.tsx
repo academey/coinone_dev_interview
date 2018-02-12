@@ -1,12 +1,11 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import Icon from "../../icons/index";
+import { DispatchProp, connect } from "react-redux";
+import Icon from "../../icons";
 import oauthApi from "../../api/oauth";
 import hangangAPI from "../../api/hangang";
-import { DispatchProp } from "react-redux";
 import { ICurrentUserRecord } from "../../models/currentUser";
-import { IAppState } from "../../reducers/index";
-import { connect } from "react-redux";
+import { IAppState } from "../../reducers";
 
 const styles = require("./header.scss");
 
@@ -52,7 +51,7 @@ class Header extends React.PureComponent<IHeaderProps, IHeaderComponentState> {
             <Link className={styles.linkItem} to="/">
               Chart
             </Link>
-            <Link className={styles.linkItem} to="/drawing">
+            <Link className={styles.linkItem} to="/expectation">
               Expectation
             </Link>
             <label className={styles.hangangTemperature}>{`${this.state.hangangTemperature}°C`}</label>

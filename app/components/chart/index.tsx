@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Actions from "./actions";
-import { IAppState } from "../../reducers/index";
+import { IAppState } from "../../reducers";
 import { DispatchProp } from "react-redux";
 import { IChartStateRecord } from "./records";
 import { connect } from "react-redux";

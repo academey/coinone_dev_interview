@@ -1,12 +1,12 @@
 import * as React from "react";
 import { connect, DispatchProp } from "react-redux";
 import { ISignInStateRecord } from "./records";
-import { IAppState } from "../../../reducers/index";
-import { InputBox } from "../../common/inputBox/index";
+import { IAppState } from "../../../reducers";
+import { InputBox } from "../../common/inputBox";
 import * as Actions from "./actions";
 import { parse } from "qs";
 import { RouteProps } from "react-router";
-import Spinner from "../../common/spinner/index";
+import Spinner from "../../common/spinner";
 import AxiosCancelTokenManager from "../../../helpers/axiosCancelTokenManager";
 const styles = require("./signIn.scss");
 

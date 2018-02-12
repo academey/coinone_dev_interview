@@ -81,8 +81,8 @@ const ChartTable = (props: IChartTableProps) => {
                   primaryText="Price Alarm"
                   onClick={() => {
                     alertToast({
-                      type: "info",
-                      message: `${tickerCurrency.toUpperCase()} is showing on tab...`,
+                      type: "error",
+                      message: `This function was not implemented yet..`,
                     });
                     closePopover();
                   }}

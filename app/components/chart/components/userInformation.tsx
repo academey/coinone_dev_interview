@@ -12,6 +12,16 @@ export interface IUserInformationProps {
   balances: IBalancesRecord;
 }
 
+const UserInformation = (props: IUserInformationProps) => {
+  return (
+    <div className={styles.userInformationContainer}>
+      <div className={styles.title}>Your Information</div>
+      <div className={styles.description}>Analyze your coin status</div>
+      {getUserInformation(props)}
+    </div>
+  );
+};
+
 function getUserInformation(props: IUserInformationProps) {
   const { isLoggedIn, balances, tickers } = props;
   if (isLoggedIn) {
@@ -22,6 +32,7 @@ function getUserInformation(props: IUserInformationProps) {
     );
   } else {
     const balanceItems = Array();
+
     IBalanceCurrencyArray.forEach((currency: string) => {
       const balance: IBalanceRecord = balances[currency];
 
@@ -33,10 +44,10 @@ function getUserInformation(props: IUserInformationProps) {
         const balanceString = numberWithCommas(parseFloat(availBalance.toFixed(2)));
 
         balanceItems.push(
-          <div
-            key={`balance_${currency}`}
-            className={styles.balanceItem}
-          >{`${currency.toUpperCase()} is ${balanceString}￦`}</div>,
+          <div key={`balance_${currency}`} className={styles.balanceItem}>
+            <span className={styles.currency}>{currency.toUpperCase()}</span>
+            <span className={styles.currencyValue}>{balanceString}￦</span>
+          </div>,
         );
       } else {
         let currentValue = null;
@@ -48,10 +59,10 @@ function getUserInformation(props: IUserInformationProps) {
         }
 
         balanceItems.push(
-          <div
-            key={`balance_${currency}`}
-            className={styles.balanceItem}
-          >{`${currency.toUpperCase()} is ${currentValueString}￦`}</div>,
+          <div key={`balance_${currency}`} className={styles.balanceItem}>
+            <span className={styles.currency}>{currency.toUpperCase()}</span>
+            <span className={styles.currencyValue}>{currentValueString}￦</span>
+          </div>,
         );
       }
     });
@@ -59,15 +70,5 @@ function getUserInformation(props: IUserInformationProps) {
     return <div className={styles.balanceItems}>{balanceItems}</div>;
   }
 }
-
-const UserInformation = (props: IUserInformationProps) => {
-  return (
-    <div className={styles.userInformationContainer}>
-      <div className={styles.title}>Your Information</div>
-      <div className={styles.description}>Analyze your coin status</div>
-      {getUserInformation(props)}
-    </div>
-  );
-};
 
 export default UserInformation;
