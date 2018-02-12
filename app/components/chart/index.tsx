@@ -13,6 +13,7 @@ import UserInformation from "./components/userInformation";
 import { ICurrentUserRecord } from "../../models/currentUser";
 import numberWithCommas from "../../helpers/numberWithCommas";
 import { COINONE_CURRENCY } from "../../api/currency";
+import { MOCK_RECORD } from "../../__mocks__/index";
 
 const styles = require("./chart.scss");
 
@@ -68,7 +69,7 @@ class ChartContainer extends React.Component<IChartContainerProps, {}> {
           togglePopover={this.togglePopover}
           closePopover={this.closePopover}
         />
-        <UserInformation isLoggedIn={currentUser.isLoggedIn} />
+        <UserInformation isLoggedIn={currentUser.isLoggedIn} tickers={tickers} balances={MOCK_RECORD.BALANCES} />
       </div>
     );
   }

@@ -1,21 +1,26 @@
 import * as React from "react";
 import oauthApi from "../../../api/oauth";
+import { IBalancesRecord } from "../../../models/balance";
+import { ITickersRecord } from "../../../models/ticker";
 
 const styles = require("./userInformation.scss");
 
 export interface IUserInformationProps {
   isLoggedIn: boolean;
+  tickers: ITickersRecord;
+  balances: IBalancesRecord;
 }
+
 function getUserInformation(props: IUserInformationProps) {
-  const { isLoggedIn } = props;
-  if (!isLoggedIn) {
+  const { isLoggedIn, balances } = props;
+  if (isLoggedIn) {
     return (
       <a className={styles.notLoggedIn} href={oauthApi.getOauthLoginUrl()}>
         First, login with coinone!
       </a>
     );
   } else {
-    return <div>oh, you are logged In!</div>;
+    return <div>{balances["eth"]}</div>;
   }
 }
 

@@ -95,7 +95,7 @@ const ChartTable = (props: IChartTableProps) => {
     },
     {
       Header: "Price(￦)",
-      id: "last_price", // Required because our accessor is not a string
+      id: "last_price",
       accessor: (ticker: ITickerRecord) => numberWithCommas(ticker.last_price),
       sortMethod: (a: string, b: string) => {
         const commaRemovedA = a.replace(/,/gi, "");
@@ -103,10 +103,14 @@ const ChartTable = (props: IChartTableProps) => {
 
         return parseInt(commaRemovedA, 10) > parseInt(commaRemovedB, 10) ? 1 : -1;
       },
+      Cell: (props: any) => {
+        const ticker: ITickerRecord = props.original;
+        return <span className={styles.tableCell}>{numberWithCommas(ticker.last_price)}</span>;
+      },
     },
     {
       Header: "Price Diff For A Day(￦, %)",
-      id: "price_diff", // Required because our accessor is not a string
+      id: "price_diff",
       accessor: (ticker: ITickerRecord) => {
         const diffPriceForADay = ticker.last_price - ticker.first_price;
         const diffPercentageForADay = diffPriceForADay / ticker.first_price * 100;
@@ -121,15 +125,15 @@ const ChartTable = (props: IChartTableProps) => {
 
         if (surplusForADay) {
           return (
-            <span className="number">
-              {`+${numberWithCommas(diffPriceForADay)}`}
+            <span className={styles.tableCell}>
+              <span>{`+${numberWithCommas(diffPriceForADay)}`}</span>
               <span className={styles.surplusForADay}>{` (${diffPercentageForADay}%)`}</span>
             </span>
           );
         } else {
           return (
-            <span className="number">
-              {`${numberWithCommas(diffPriceForADay)}`}
+            <span className={styles.tableCell}>
+              <span>{`${numberWithCommas(diffPriceForADay)}`}</span>
               <span className={styles.deficitForADay}>{` (${diffPercentageForADay}%)`}</span>
             </span>
           );
@@ -138,7 +142,7 @@ const ChartTable = (props: IChartTableProps) => {
     },
     {
       Header: "Volume",
-      id: "volume", // Required because our accessor is not a string
+      id: "volume",
       accessor: (ticker: ITickerRecord) => numberWithCommas(ticker.volume),
       sortMethod: (a: string, b: string) => {
         const commaRemovedA = a.replace(/,/gi, "");
@@ -146,10 +150,14 @@ const ChartTable = (props: IChartTableProps) => {
 
         return parseInt(commaRemovedA, 10) > parseInt(commaRemovedB, 10) ? 1 : -1;
       },
+      Cell: (props: any) => {
+        const ticker: ITickerRecord = props.original;
+        return <span className={styles.tableCell}>{numberWithCommas(ticker.volume)}</span>;
+      },
     },
     {
       Header: "Yesterday(￦, %)",
-      id: "yesterday_diff", // Required because our accessor is not a string
+      id: "yesterday_diff",
       accessor: (ticker: ITickerRecord) => {
         const yesterdayDiffPriceForADay = ticker.yesterday_last - ticker.yesterday_first;
         const yesterdayDiffPercentageForADay = yesterdayDiffPriceForADay / ticker.first_price * 100;
@@ -164,8 +172,8 @@ const ChartTable = (props: IChartTableProps) => {
 
         if (yesterdaySurplusForADay) {
           return (
-            <span className="number">
-              {numberWithCommas(ticker.yesterday_last)}{" "}
+            <span className={styles.tableCell}>
+              <span>{numberWithCommas(ticker.yesterday_last)} </span>
               <span className={styles.surplusForADay}>{`+${numberWithCommas(
                 yesterdayDiffPriceForADay,
               )} (${yesterdayDiffPercentageForADay}%)`}</span>
@@ -173,8 +181,8 @@ const ChartTable = (props: IChartTableProps) => {
           );
         } else {
           return (
-            <span className="number">
-              {numberWithCommas(ticker.yesterday_last)}{" "}
+            <span className={styles.tableCell}>
+              <span>{numberWithCommas(ticker.yesterday_last)} </span>
               <span className={styles.deficitForADay}>{`${numberWithCommas(
                 yesterdayDiffPriceForADay,
               )} (${yesterdayDiffPercentageForADay}%)`}</span>

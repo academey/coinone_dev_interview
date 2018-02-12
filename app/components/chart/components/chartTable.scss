@@ -3,6 +3,22 @@
 .chartTable {
   margin-top: 20px;
 
+  div > div > div > div {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .tableCell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > :first-child {
+      margin-right: 3px;
+    }
+  }
+
   .surplusForADay {
     color: $coinone_red;
   }
